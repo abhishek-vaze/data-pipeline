@@ -20,11 +20,11 @@ public class ErrorPipeline implements Serializable {
 
     private static String INPUT_TOPIC = "error_input";
     private static String OUTPUT_TOPIC = "error_output";
+    private static String KAFKA_SERVER = "localhost:9092";
 
     static class PrintDataToLogs extends DoFn<String, String> {
         @ProcessElement
         public void processElement(@Element String line, OutputReceiver<String> out) {
-            System.out.println("Abhishek " + line);
             out.output(line);
         }
     }
@@ -36,18 +36,17 @@ public class ErrorPipeline implements Serializable {
         }
     }
 
-    public void recieveAndSendData(PipelineOptions options) {
+    public void recieveAndSendData(ErrorGroupOptions options) {
         Pipeline pipeline = Pipeline.create(options);
         PCollection<String> output =
                 pipeline
                         .apply(
                                 KafkaIO.<String, String>read()
-                                        .withBootstrapServers("localhost:9092")
+                                        .withBootstrapServers(KAFKA_SERVER)
                                         .withTopic(INPUT_TOPIC)
                                         .withKeyDeserializer(StringDeserializer.class)
                                         .withValueDeserializer(StringDeserializer.class)
-                                        .updateConsumerProperties(
-                                                ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
+                                        .updateConsumerProperties(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
                                         .withoutMetadata())
                         .apply(
                                 "Apply Fixed window: ",
@@ -62,13 +61,14 @@ public class ErrorPipeline implements Serializable {
                                                 return inputJSON.getValue();
                                             }
                                         }));
-        output.apply(ParDo.of(new PrintDataToLogs()));
-        output.apply(KafkaIO.<Void, String>write()
-                .withBootstrapServers("localhost:9092")
-                .withTopic(OUTPUT_TOPIC)
-                .withValueSerializer(StringSerializer.class) // just need serializer for value
-                .values()
-        );
+        output.apply(ParDo.of(new CheckErrorFn(options.getErrorCode())))
+                .apply(ParDo.of(new PrintDataToLogs()))
+                .apply(KafkaIO.<Void, String>write()
+                        .withBootstrapServers(KAFKA_SERVER)
+                        .withTopic(OUTPUT_TOPIC)
+                        .withValueSerializer(StringSerializer.class) // just need serializer for value
+                        .values()
+                );
         pipeline.run();
     }
 }

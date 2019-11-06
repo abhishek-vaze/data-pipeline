@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24e81975-116f-46aa-b339-a7aee76e235f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/CheckErrorFn.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/Error.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/ErrorPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/ErrorPipeline.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +43,11 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.ikea.bootcamp.pipeline.demo" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
