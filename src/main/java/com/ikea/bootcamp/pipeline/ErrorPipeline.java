@@ -1,5 +1,8 @@
-package com.ikea.bootcamp.pipeline.demo;
+package com.ikea.bootcamp.pipeline;
 
+import com.ikea.bootcamp.subprocess.CheckErrorFn;
+import com.ikea.bootcamp.model.ErrorGroupOptions;
+import com.ikea.bootcamp.subprocess.PrintDataToLogs;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.kafka.KafkaIO;
 import org.apache.beam.sdk.transforms.*;

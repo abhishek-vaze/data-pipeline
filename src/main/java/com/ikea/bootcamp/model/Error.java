@@ -1,4 +1,4 @@
-package com.ikea.bootcamp.pipeline.demo;
+package com.ikea.bootcamp.model;
 
 public class Error {
 

@@ -1,5 +1,7 @@
-package com.ikea.bootcamp.pipeline.demo;
+package com.ikea.bootcamp;
 
+import com.ikea.bootcamp.model.ErrorGroupOptions;
+import com.ikea.bootcamp.pipeline.ErrorPipeline;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 
 public class App {

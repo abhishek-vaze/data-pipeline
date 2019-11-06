@@ -1,4 +1,4 @@
-package com.ikea.bootcamp.pipeline.demo;
+package com.ikea.bootcamp.model;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.options.Default;

@@ -1,13 +1,11 @@
-package com.ikea.bootcamp.pipeline.demo;
+package com.ikea.bootcamp.subprocess;
 
 import com.google.gson.Gson;
+import com.ikea.bootcamp.model.Error;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.values.TupleTag;
-import org.apache.beam.sdk.values.TupleTagList;
-import org.apache.kafka.common.protocol.types.Field;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class CheckErrorFn extends DoFn<String, String> implements Serializable {
 

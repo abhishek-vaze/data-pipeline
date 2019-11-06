@@ -1,4 +1,4 @@
-package com.ikea.bootcamp.pipeline.demo;
+package com.ikea.bootcamp.subprocess;
 
 import org.apache.beam.sdk.transforms.DoFn;
 
