@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24e81975-116f-46aa-b339-a7aee76e235f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/CheckErrorFn.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/Error.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/PrintDataToLogs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/CheckErrorFn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/CheckErrorFn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/ErrorPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/demo/ErrorPipeline.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -119,11 +118,6 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/org/apache/beam/beam-sdks-java-core/2.16.0/beam-sdks-java-core-2.16.0.jar!/org/apache/beam/sdk/util/SerializableUtils.class</url>
-          <line>30</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$MAVEN_REPOSITORY$/org/apache/beam/beam-sdks-java-core/2.16.0/beam-sdks-java-core-2.16.0.jar!/org/apache/beam/sdk/util/SerializableUtils.class</url>
           <line>39</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
@@ -131,14 +125,6 @@
           <url>jar://$MAVEN_REPOSITORY$/org/apache/beam/beam-sdks-java-core/2.16.0/beam-sdks-java-core-2.16.0.jar!/org/apache/beam/sdk/util/SerializableUtils.class</url>
           <line>47</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>jar://$MAVEN_REPOSITORY$/org/apache/beam/beam-sdks-java-core/2.16.0/beam-sdks-java-core-2.16.0.jar!/org/apache/beam/sdk/util/SerializableUtils.class</url>
-          <line>28</line>
-          <properties class="org.apache.beam.sdk.util.SerializableUtils" method="serializeToByteArray">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
