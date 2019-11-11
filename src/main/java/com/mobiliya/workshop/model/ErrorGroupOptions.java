@@ -1,4 +1,4 @@
-package com.ikea.bootcamp.model;
+package com.mobiliya.workshop.model;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.options.Default;

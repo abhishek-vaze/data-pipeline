@@ -1,4 +1,4 @@
-package com.ikea.bootcamp.subprocess;
+package com.mobiliya.workshop.subprocess;
 
 import org.apache.beam.sdk.transforms.DoFn;
 

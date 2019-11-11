@@ -1,4 +1,4 @@
-package com.ikea.bootcamp.model;
+package com.mobiliya.workshop.model;
 
 public class Error {
 

@@ -1,10 +1,11 @@
-package com.ikea.bootcamp.pipeline;
+package com.mobiliya.workshop.pipeline;
 
-import com.ikea.bootcamp.subprocess.CheckErrorFn;
-import com.ikea.bootcamp.model.ErrorGroupOptions;
-import com.ikea.bootcamp.subprocess.PrintDataToLogs;
+import com.mobiliya.workshop.subprocess.CheckErrorFn;
+import com.mobiliya.workshop.model.ErrorGroupOptions;
+import com.mobiliya.workshop.subprocess.PrintDataToLogs;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.kafka.KafkaIO;
+import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.*;
 import org.apache.beam.sdk.transforms.windowing.*;
 import org.apache.beam.sdk.values.*;
@@ -15,7 +16,7 @@ import org.joda.time.Duration;
 
 import java.io.Serializable;
 
-public class ErrorPipeline implements Serializable {
+public class DataflowPipelineBuilder implements Serializable {
 
     private static String INPUT_TOPIC = "error_input";
     private static String OUTPUT_TOPIC = "error_output";
@@ -30,7 +31,10 @@ public class ErrorPipeline implements Serializable {
     private TupleTag<String> UNPARSABLE_INPUT = new TupleTag<String>() {
     };
 
-    public void recieveAndSendData(ErrorGroupOptions options) {
+    public Pipeline createDataPipeline(String[] args) {
+
+        ErrorGroupOptions options =
+                PipelineOptionsFactory.fromArgs(args).withValidation().as(ErrorGroupOptions.class);
 
         Pipeline pipeline = Pipeline.create(options);
         PCollection<String> output =
@@ -73,6 +77,6 @@ public class ErrorPipeline implements Serializable {
         );
         out.get(UNPARSABLE_INPUT).apply(ParDo.of(new PrintDataToLogs()));
 
-        pipeline.run();
+        return pipeline;
     }
 }
