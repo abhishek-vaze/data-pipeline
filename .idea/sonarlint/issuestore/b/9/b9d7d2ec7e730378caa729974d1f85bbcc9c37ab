@@ -1,8 +1,0 @@
-
-tsquid:S3008"VRename this field "INPUT_TOPIC" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å¸Û∑8»Ú”÷„-
-isquid:CommentedOutCodeLine("<This block of commented-out lines of code should be removed.(©£Œ·8Ï—›Ÿ„-
-zsquid:S3008"WRename this field "OUTPUT_TOPIC" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(πÓÍ¯¯ˇˇˇˇ8óß¬◊„-
-osquid:CallToDeprecatedMethodJ"@Remove this use of "updateConsumerProperties"; it is deprecated.(áªœã8£ûà‹„-
-Ssquid:S1068"0Remove this unused "OUTPUT_TOPIC" private field.(πÓÍ¯¯ˇˇˇˇ8«‹Œ◊„-
-[
-squid:S1062"9Replace this use of System.out or System.err by a logger.(Òó∏Ω˙ˇˇˇˇ8ﬂ êÿ„-
