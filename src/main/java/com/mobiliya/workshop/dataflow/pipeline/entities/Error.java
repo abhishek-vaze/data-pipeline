@@ -1,4 +1,4 @@
-package com.mobiliya.workshop.model;
+package com.mobiliya.workshop.dataflow.pipeline.entities;
 
 public class Error {
 

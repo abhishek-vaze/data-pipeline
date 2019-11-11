@@ -1,7 +1,7 @@
 package com.mobiliya.workshop.subprocess;
 
 import com.google.gson.Gson;
-import com.mobiliya.workshop.model.Error;
+import com.mobiliya.workshop.dataflow.pipeline.entities.Error;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.values.TupleTag;
 

@@ -1,7 +1,7 @@
-package com.mobiliya.workshop.pipeline;
+package com.mobiliya.workshop.dataflow.pipeline;
 
 import com.mobiliya.workshop.subprocess.CheckErrorFn;
-import com.mobiliya.workshop.model.ErrorGroupOptions;
+import com.mobiliya.workshop.dataflow.pipeline.options.ErrorGroupOptions;
 import com.mobiliya.workshop.subprocess.PrintDataToLogs;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.kafka.KafkaIO;

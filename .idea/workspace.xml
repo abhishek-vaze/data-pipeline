@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24e81975-116f-46aa-b339-a7aee76e235f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/StarterPipelineApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/model/Error.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/model/Error.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/model/ErrorGroupOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/model/ErrorGroupOptions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/pipeline/ErrorPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/pipeline/DataflowPipelineBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/subprocess/CheckErrorFn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/CheckErrorFn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ikea/bootcamp/subprocess/PrintDataToLogs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/PrintDataToLogs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/exception/DataPipelineException.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,6 +42,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mobiliya.workshop.exception" />
       <recent name="com.ikea.bootcamp.pipeline.demo" />
     </key>
   </component>

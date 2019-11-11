@@ -1,4 +1,4 @@
-package com.mobiliya.workshop.model;
+package com.mobiliya.workshop.dataflow.pipeline.options;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.options.Default;

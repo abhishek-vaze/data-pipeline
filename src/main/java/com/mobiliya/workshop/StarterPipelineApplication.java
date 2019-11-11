@@ -1,6 +1,6 @@
 package com.mobiliya.workshop;
 
-import com.mobiliya.workshop.pipeline.DataflowPipelineBuilder;
+import com.mobiliya.workshop.dataflow.pipeline.DataflowPipelineBuilder;
 
 public class StarterPipelineApplication {
 
