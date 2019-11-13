@@ -1,6 +1,8 @@
 package com.mobiliya.workshop.dataflow.pipeline.entities;
 
-public class Error {
+import java.io.Serializable;
+
+public class Error implements Serializable {
 
     private String errorCode;
     private long timestamp;

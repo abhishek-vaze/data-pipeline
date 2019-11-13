@@ -1,9 +1,13 @@
 package com.mobiliya.workshop.dataflow.pipeline;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mobiliya.workshop.dataflow.pipeline.entities.Error;
 import com.mobiliya.workshop.subprocess.CheckErrorFn;
 import com.mobiliya.workshop.dataflow.pipeline.options.ErrorGroupOptions;
-import com.mobiliya.workshop.subprocess.PrintDataToLogs;
 import org.apache.beam.sdk.Pipeline;
+import org.apache.beam.sdk.coders.SerializableCoder;
+import org.apache.beam.sdk.extensions.jackson.AsJsons;
+import org.apache.beam.sdk.extensions.jackson.ParseJsons;
 import org.apache.beam.sdk.io.kafka.KafkaIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.*;
@@ -21,11 +25,9 @@ public class DataflowPipelineBuilder implements Serializable {
     private static String KAFKA_SERVER = "localhost:9092";
     private static int WINDOW_INTERVAL = 120;
 
-    private TupleTag<String> GROUPBY = new TupleTag<String>() {
+    private TupleTag<Error> success = new TupleTag<Error>() {
     };
-    private TupleTag<String> IGNORED = new TupleTag<String>() {
-    };
-    private TupleTag<String> UNPARSABLE_INPUT = new TupleTag<String>() {
+    private TupleTag<Error> failure = new TupleTag<Error>() {
     };
 
     public Pipeline createDataPipeline(String[] args) {
@@ -34,7 +36,7 @@ public class DataflowPipelineBuilder implements Serializable {
                 PipelineOptionsFactory.fromArgs(args).withValidation().as(ErrorGroupOptions.class);
 
         Pipeline pipeline = Pipeline.create(options);
-        PCollection<String> output =
+        PCollection<Error> output =
                 pipeline
                         .apply(
                                 KafkaIO.<String, String>read()
@@ -56,24 +58,22 @@ public class DataflowPipelineBuilder implements Serializable {
                                             public String apply(KV<String, String> inputJSON) {
                                                 return inputJSON.getValue();
                                             }
-                                        }));
-        PCollectionTuple out = output.apply(ParDo.of(new CheckErrorFn(options.getErrorCode(), GROUPBY, IGNORED, UNPARSABLE_INPUT)).withOutputTags(GROUPBY, TupleTagList.of(IGNORED).and(UNPARSABLE_INPUT)));
+                                        })).apply(ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class));
+        PCollectionTuple out = output.apply(ParDo.of(new CheckErrorFn(options.getErrorCode(), success, failure)).withOutputTags(success, TupleTagList.of(failure)));
 
-        out.get(GROUPBY).apply(KafkaIO.<Void, String>write()
+        out.get(success).apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Long, String>write()
                 .withBootstrapServers(KAFKA_SERVER)
                 .withTopic(options.getOutputTopic())
                 .withValueSerializer(StringSerializer.class) // just need serializer for value
                 .values()
         );
 
-        out.get(IGNORED).apply(KafkaIO.<Void, String>write()
+        out.get(success).apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Void, String>write()
                 .withBootstrapServers(KAFKA_SERVER)
                 .withTopic(options.getFailureTopic())
                 .withValueSerializer(StringSerializer.class) // just need serializer for value
                 .values()
         );
-        out.get(UNPARSABLE_INPUT).apply(ParDo.of(new PrintDataToLogs()));
-
         return pipeline;
     }
 }

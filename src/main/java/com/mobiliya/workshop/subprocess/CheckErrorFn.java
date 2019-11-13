@@ -1,41 +1,32 @@
 package com.mobiliya.workshop.subprocess;
 
-import com.google.gson.Gson;
 import com.mobiliya.workshop.dataflow.pipeline.entities.Error;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.values.TupleTag;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.io.Serializable;
 
-public class CheckErrorFn extends DoFn<String, String> implements Serializable {
+public class CheckErrorFn extends DoFn<Error, Error> implements Serializable {
 
     private String errorCode;
-    private TupleTag<String> groupBy;
-    private TupleTag<String> ignored;
-    private TupleTag<String> unparsableInput;
+    private TupleTag<Error> success;
+    private TupleTag<Error> failure;
 
-    public CheckErrorFn(String errorCode, TupleTag<String> groupBy, TupleTag<String> ignored, TupleTag<String> unparsableInput) {
-        this.groupBy = groupBy;
-        this.ignored = ignored;
-        this.unparsableInput = unparsableInput;
+    public CheckErrorFn(String errorCode, TupleTag<Error> success, TupleTag<Error> failure) {
+        this.success = success;
+        this.failure = failure;
         this.errorCode = errorCode;
     }
 
     @ProcessElement
-    public void process(@Element String line, MultiOutputReceiver out) {
-        Gson gson = new Gson();
-        Error error = null;
-        try {
-            error = gson.fromJson(line, Error.class);
-        } catch (Exception ex) {
-            out.get(unparsableInput).output(line);
-            return;
-        }
+    public void process(@Element Error error, MultiOutputReceiver out) throws Exception {
 
         if (error.getErrorCode().equalsIgnoreCase(errorCode))
-            out.get(groupBy).output(gson.toJson(error));
+            out.get(success).output(error);
         else
-            out.get(ignored).output(gson.toJson(error));
+            out.get(failure).output(error);
 
     }
 }
