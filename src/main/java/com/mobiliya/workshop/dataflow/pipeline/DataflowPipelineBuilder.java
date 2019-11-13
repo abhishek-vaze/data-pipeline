@@ -18,9 +18,6 @@ import java.io.Serializable;
 
 public class DataflowPipelineBuilder implements Serializable {
 
-    private static String INPUT_TOPIC = "error_input";
-    private static String OUTPUT_TOPIC = "error_output";
-    private static String IGNORE_TOPIC = "ignore_output";
     private static String KAFKA_SERVER = "localhost:9092";
     private static int WINDOW_INTERVAL = 120;
 
@@ -42,7 +39,7 @@ public class DataflowPipelineBuilder implements Serializable {
                         .apply(
                                 KafkaIO.<String, String>read()
                                         .withBootstrapServers(KAFKA_SERVER)
-                                        .withTopic(INPUT_TOPIC)
+                                        .withTopic(options.getInputTopic())
                                         .withKeyDeserializer(StringDeserializer.class)
                                         .withValueDeserializer(StringDeserializer.class)
                                         .updateConsumerProperties(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
@@ -64,14 +61,14 @@ public class DataflowPipelineBuilder implements Serializable {
 
         out.get(GROUPBY).apply(KafkaIO.<Void, String>write()
                 .withBootstrapServers(KAFKA_SERVER)
-                .withTopic(OUTPUT_TOPIC)
+                .withTopic(options.getOutputTopic())
                 .withValueSerializer(StringSerializer.class) // just need serializer for value
                 .values()
         );
 
         out.get(IGNORED).apply(KafkaIO.<Void, String>write()
                 .withBootstrapServers(KAFKA_SERVER)
-                .withTopic(IGNORE_TOPIC)
+                .withTopic(options.getFailureTopic())
                 .withValueSerializer(StringSerializer.class) // just need serializer for value
                 .values()
         );
