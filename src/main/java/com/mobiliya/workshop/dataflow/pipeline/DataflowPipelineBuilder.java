@@ -68,7 +68,7 @@ public class DataflowPipelineBuilder implements Serializable {
                 .values()
         );
 
-        out.get(success).apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Void, String>write()
+        out.get(failure).apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Void, String>write()
                 .withBootstrapServers(KAFKA_SERVER)
                 .withTopic(options.getFailureTopic())
                 .withValueSerializer(StringSerializer.class) // just need serializer for value
