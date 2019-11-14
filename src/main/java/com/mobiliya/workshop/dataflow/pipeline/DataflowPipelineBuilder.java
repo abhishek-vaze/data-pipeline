@@ -46,25 +46,16 @@ public class DataflowPipelineBuilder implements Serializable {
                                 .withValueDeserializer(StringDeserializer.class)
                                 .updateConsumerProperties(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
                                 .withoutMetadata())
-                .apply(
-                        "Apply Fixed window: ",
-                        Window.<KV<String, String>>into(FixedWindows.of(Duration.standardSeconds(WINDOW_INTERVAL))))
-                .apply(
-                        MapElements.via(
-                                new SimpleFunction<KV<String, String>, String>() {
-                                    private static final long serialVersionUID = 1L;
-
-                                    @Override
-                                    public String apply(KV<String, String> inputJSON) {
-                                        return inputJSON.getValue();
-                                    }
-                                }))
+                .apply(Values.<String>create())
                 .apply("Deserialize JSON ",
                         ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class))
                 .apply("Filter by Error Code",
                         Filter.by(input -> {
                             return input.getErrorCode().equalsIgnoreCase(errorCode);
                         }))
+                .apply(
+                        "Apply Fixed window: ",
+                        Window.<Error>into(FixedWindows.of(Duration.standardSeconds(WINDOW_INTERVAL))))
                 .apply("Serialize to JSON",
                         AsJsons.of(Error.class).withMapper(new ObjectMapper()))
                 .apply("Write to Kafka",

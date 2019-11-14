@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24e81975-116f-46aa-b339-a7aee76e235f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/dataflow/pipeline/DataflowPipelineBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/dataflow/pipeline/DataflowPipelineBuilder.java" afterDir="false" />
     </list>
