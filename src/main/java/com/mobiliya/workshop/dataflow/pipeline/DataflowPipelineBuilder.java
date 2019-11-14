@@ -38,7 +38,7 @@ public class DataflowPipelineBuilder implements Serializable {
         Pipeline pipeline = Pipeline.create(options);
 
         pipeline
-                .apply(
+                .apply("Read from Kafka",
                         KafkaIO.<String, String>read()
                                 .withBootstrapServers(KAFKA_SERVER)
                                 .withTopic(options.getInputTopic())
@@ -59,15 +59,20 @@ public class DataflowPipelineBuilder implements Serializable {
                                         return inputJSON.getValue();
                                     }
                                 }))
-                .apply(ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class))
-                .apply(Filter.by(input -> {
-                    return input.getErrorCode().equalsIgnoreCase(errorCode);
-                }))
-                .apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Void, String>write()
-                .withBootstrapServers(KAFKA_SERVER)
-                .withTopic(options.getOutputTopic())
-                .withValueSerializer(StringSerializer.class) // just need serializer for value
-                .values());
+                .apply("Deserialize JSON ",
+                        ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class))
+                .apply("Filter by Error Code",
+                        Filter.by(input -> {
+                            return input.getErrorCode().equalsIgnoreCase(errorCode);
+                        }))
+                .apply("Serialize to JSON",
+                        AsJsons.of(Error.class).withMapper(new ObjectMapper()))
+                .apply("Write to Kafka",
+                        KafkaIO.<Void, String>write()
+                                .withBootstrapServers(KAFKA_SERVER)
+                                .withTopic(options.getOutputTopic())
+                                .withValueSerializer(StringSerializer.class) // just need serializer for value
+                                .values());
 
 
 
