@@ -34,32 +34,44 @@ public class DataflowPipelineBuilder implements Serializable {
 
         ErrorGroupOptions options =
                 PipelineOptionsFactory.fromArgs(args).withValidation().as(ErrorGroupOptions.class);
-
+        String errorCode = options.getErrorCode();
         Pipeline pipeline = Pipeline.create(options);
-        PCollection<Error> output =
-                pipeline
-                        .apply(
-                                KafkaIO.<String, String>read()
-                                        .withBootstrapServers(KAFKA_SERVER)
-                                        .withTopic(options.getInputTopic())
-                                        .withKeyDeserializer(StringDeserializer.class)
-                                        .withValueDeserializer(StringDeserializer.class)
-                                        .updateConsumerProperties(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
-                                        .withoutMetadata())
-                        .apply(
-                                "Apply Fixed window: ",
-                                Window.<KV<String, String>>into(FixedWindows.of(Duration.standardSeconds(WINDOW_INTERVAL))))
-                        .apply(
-                                MapElements.via(
-                                        new SimpleFunction<KV<String, String>, String>() {
-                                            private static final long serialVersionUID = 1L;
 
-                                            @Override
-                                            public String apply(KV<String, String> inputJSON) {
-                                                return inputJSON.getValue();
-                                            }
-                                        })).apply(ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class));
-        PCollectionTuple out = output.apply(ParDo.of(new CheckErrorFn(options.getErrorCode(), success, failure)).withOutputTags(success, TupleTagList.of(failure)));
+        pipeline
+                .apply(
+                        KafkaIO.<String, String>read()
+                                .withBootstrapServers(KAFKA_SERVER)
+                                .withTopic(options.getInputTopic())
+                                .withKeyDeserializer(StringDeserializer.class)
+                                .withValueDeserializer(StringDeserializer.class)
+                                .updateConsumerProperties(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
+                                .withoutMetadata())
+                .apply(
+                        "Apply Fixed window: ",
+                        Window.<KV<String, String>>into(FixedWindows.of(Duration.standardSeconds(WINDOW_INTERVAL))))
+                .apply(
+                        MapElements.via(
+                                new SimpleFunction<KV<String, String>, String>() {
+                                    private static final long serialVersionUID = 1L;
+
+                                    @Override
+                                    public String apply(KV<String, String> inputJSON) {
+                                        return inputJSON.getValue();
+                                    }
+                                }))
+                .apply(ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class))
+                .apply(Filter.by(input -> {
+                    return input.getErrorCode().equalsIgnoreCase(errorCode);
+                }))
+                .apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Void, String>write()
+                .withBootstrapServers(KAFKA_SERVER)
+                .withTopic(options.getOutputTopic())
+                .withValueSerializer(StringSerializer.class) // just need serializer for value
+                .values());
+
+
+
+        /*PCollectionTuple out = output.apply(ParDo.of(new CheckErrorFn(options.getErrorCode(), success, failure)).withOutputTags(success, TupleTagList.of(failure)));
 
         out.get(success).apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Long, String>write()
                 .withBootstrapServers(KAFKA_SERVER)
@@ -73,7 +85,7 @@ public class DataflowPipelineBuilder implements Serializable {
                 .withTopic(options.getFailureTopic())
                 .withValueSerializer(StringSerializer.class) // just need serializer for value
                 .values()
-        );
+        );*/
         return pipeline;
     }
 }
