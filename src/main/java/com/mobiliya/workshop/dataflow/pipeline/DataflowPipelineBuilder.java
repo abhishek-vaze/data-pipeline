@@ -2,12 +2,10 @@ package com.mobiliya.workshop.dataflow.pipeline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mobiliya.workshop.dataflow.pipeline.entities.Error;
-import com.mobiliya.workshop.subprocess.CheckErrorFn;
 import com.mobiliya.workshop.dataflow.pipeline.options.ErrorGroupOptions;
+import com.mobiliya.workshop.subprocess.JsonTransformer;
 import org.apache.beam.sdk.Pipeline;
-import org.apache.beam.sdk.coders.SerializableCoder;
 import org.apache.beam.sdk.extensions.jackson.AsJsons;
-import org.apache.beam.sdk.extensions.jackson.ParseJsons;
 import org.apache.beam.sdk.io.kafka.KafkaIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.*;
@@ -37,6 +35,7 @@ public class DataflowPipelineBuilder implements Serializable {
         String errorCode = options.getErrorCode();
         Pipeline pipeline = Pipeline.create(options);
 
+
         pipeline
                 .apply("Read from Kafka",
                         KafkaIO.<String, String>read()
@@ -47,8 +46,7 @@ public class DataflowPipelineBuilder implements Serializable {
                                 .updateConsumerProperties(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
                                 .withoutMetadata())
                 .apply(Values.<String>create())
-                .apply("Deserialize JSON ",
-                        ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class))
+                .apply(new JsonTransformer())
                 .apply("Filter by Error Code",
                         Filter.by(input -> {
                             return input.getErrorCode().equalsIgnoreCase(errorCode);
