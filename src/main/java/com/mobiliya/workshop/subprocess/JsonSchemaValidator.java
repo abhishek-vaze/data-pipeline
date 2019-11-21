@@ -6,16 +6,16 @@ import org.apache.beam.sdk.values.TupleTag;
 
 import java.util.function.Predicate;
 
-public class JsonTransformer extends DoFn<String, String> {
+public class JsonSchemaValidator extends DoFn<String, String> {
 
     private TupleTag<String> success;
     private TupleTag<String> failure;
-    private JsonValidator validator;
+    private JsonValidationPredicate validator;
 
-    public JsonTransformer(TupleTag<String> success, TupleTag<String> failure, Predicate<String> validator) {
+    public JsonSchemaValidator(TupleTag<String> success, TupleTag<String> failure, Predicate<String> validator) {
         this.success = success;
         this.failure = failure;
-        this.validator = (JsonValidator) validator;
+        this.validator = (JsonValidationPredicate) validator;
     }
 
     @ProcessElement

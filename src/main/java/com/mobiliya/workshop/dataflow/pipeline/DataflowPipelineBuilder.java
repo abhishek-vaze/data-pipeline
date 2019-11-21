@@ -3,8 +3,8 @@ package com.mobiliya.workshop.dataflow.pipeline;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mobiliya.workshop.dataflow.pipeline.entities.Error;
 import com.mobiliya.workshop.dataflow.pipeline.options.ErrorGroupOptions;
-import com.mobiliya.workshop.subprocess.JsonTransformer;
-import com.mobiliya.workshop.subprocess.JsonValidator;
+import com.mobiliya.workshop.subprocess.JsonSchemaValidator;
+import com.mobiliya.workshop.subprocess.JsonValidationPredicate;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.extensions.jackson.AsJsons;
 import org.apache.beam.sdk.extensions.jackson.ParseJsons;
@@ -25,9 +25,9 @@ public class DataflowPipelineBuilder implements Serializable {
     private static String KAFKA_SERVER = "localhost:9092";
     private static int WINDOW_INTERVAL = 120;
 
-    private TupleTag<Error> success = new TupleTag<Error>() {
+    private TupleTag<String> success = new TupleTag<String>() {
     };
-    private TupleTag<Error> failure = new TupleTag<Error>() {
+    private TupleTag<String> failure = new TupleTag<String>() {
     };
 
     public Pipeline createDataPipeline(String[] args) {
@@ -36,10 +36,10 @@ public class DataflowPipelineBuilder implements Serializable {
                 PipelineOptionsFactory.fromArgs(args).withValidation().as(ErrorGroupOptions.class);
         String errorCode = options.getErrorCode();
         Pipeline pipeline = Pipeline.create(options);
-        JsonValidator validator = new JsonValidator();
+        JsonValidationPredicate validator = new JsonValidationPredicate();
 
 
-        pipeline
+        PCollectionTuple out = pipeline
                 .apply("Read from Kafka",
                         KafkaIO.<String, String>read()
                                 .withBootstrapServers(KAFKA_SERVER)
@@ -49,8 +49,11 @@ public class DataflowPipelineBuilder implements Serializable {
                                 .withConsumerConfigUpdates(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
                                 .withoutMetadata())
                 .apply(Values.<String>create())
-                .apply("Check input Json against schema", Filter.by(input -> validator.test(input)))
-                .apply(ParseJsons.of(Error.class))
+                .apply("Schema validation",
+                        ParDo.of(new JsonSchemaValidator(success, failure, validator)).withOutputTags(success, TupleTagList.of(failure)));
+
+        out.get(success)
+                .apply("Deserialize from JSON ",ParseJsons.of(Error.class))
                 .apply("Filter by Error Code",
                         Filter.by(input -> {
                             return input.getErrorCode().equalsIgnoreCase(errorCode);
@@ -67,23 +70,12 @@ public class DataflowPipelineBuilder implements Serializable {
                                 .withValueSerializer(StringSerializer.class) // just need serializer for value
                                 .values());
 
-
-
-        /*PCollectionTuple out = output.apply(ParDo.of(new CheckErrorFn(options.getErrorCode(), success, failure)).withOutputTags(success, TupleTagList.of(failure)));
-
-        out.get(success).apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Long, String>write()
-                .withBootstrapServers(KAFKA_SERVER)
-                .withTopic(options.getOutputTopic())
-                .withValueSerializer(StringSerializer.class) // just need serializer for value
-                .values()
-        );
-
-        out.get(failure).apply(AsJsons.of(Error.class).withMapper(new ObjectMapper())).apply(KafkaIO.<Void, String>write()
+        out.get(failure).apply(KafkaIO.<Void, String>write()
                 .withBootstrapServers(KAFKA_SERVER)
                 .withTopic(options.getFailureTopic())
                 .withValueSerializer(StringSerializer.class) // just need serializer for value
                 .values()
-        );*/
+        );
         return pipeline;
     }
 }

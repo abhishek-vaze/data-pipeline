@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.function.Predicate;
 
-public class JsonValidator implements Predicate<String>, Serializable {
+public class JsonValidationPredicate implements Predicate<String>, Serializable {
     @Override
     public boolean test(String input) {
         try {
