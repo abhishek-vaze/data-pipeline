@@ -4,8 +4,6 @@
     <list default="true" id="24e81975-116f-46aa-b339-a7aee76e235f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/dataflow/pipeline/DataflowPipelineBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/dataflow/pipeline/DataflowPipelineBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonSchemaValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonValidationPredicate.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +62,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.JsonValidator">
+  <component name="RunManager" selected="Application.StarterPipelineApplication">
     <configuration name="JsonValidator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mobiliya.workshop.test.JsonValidator" />
       <module name="data-pipeline" />
@@ -111,8 +109,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.JsonValidator" />
         <item itemvalue="Application.StarterPipelineApplication" />
+        <item itemvalue="Application.JsonValidator" />
         <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>

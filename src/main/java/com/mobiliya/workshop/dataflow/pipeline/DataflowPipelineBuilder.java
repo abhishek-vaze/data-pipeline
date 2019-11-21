@@ -6,6 +6,7 @@ import com.mobiliya.workshop.dataflow.pipeline.options.ErrorGroupOptions;
 import com.mobiliya.workshop.subprocess.JsonSchemaValidator;
 import com.mobiliya.workshop.subprocess.JsonValidationPredicate;
 import org.apache.beam.sdk.Pipeline;
+import org.apache.beam.sdk.coders.SerializableCoder;
 import org.apache.beam.sdk.extensions.jackson.AsJsons;
 import org.apache.beam.sdk.extensions.jackson.ParseJsons;
 import org.apache.beam.sdk.io.kafka.KafkaIO;
@@ -53,7 +54,7 @@ public class DataflowPipelineBuilder implements Serializable {
                         ParDo.of(new JsonSchemaValidator(success, failure, validator)).withOutputTags(success, TupleTagList.of(failure)));
 
         out.get(success)
-                .apply("Deserialize from JSON ",ParseJsons.of(Error.class))
+                .apply("Deserialize from JSON ",ParseJsons.of(Error.class)).setCoder(SerializableCoder.of(Error.class))
                 .apply("Filter by Error Code",
                         Filter.by(input -> {
                             return input.getErrorCode().equalsIgnoreCase(errorCode);
