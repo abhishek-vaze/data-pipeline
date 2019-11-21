@@ -15,7 +15,7 @@ public class JsonValidationPredicate implements Predicate<String>, Serializable 
     public boolean test(String input) {
         try {
             JsonNode inputJson = JsonLoader.fromString(input);
-            JsonNode inputSchema = JsonLoader.fromFile(new File("C:\\Users\\Abhishek\\IdeaProjects\\pipelineexample\\src\\main\\input-message-schema.json"));
+            JsonNode inputSchema = JsonLoader.fromFile(new File("C:\\Users\\Abhishek\\IdeaProjects\\pipelineexample\\src\\main\\resources\\input-message-schema.json"));
             JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
             JsonSchema schema = factory.getJsonSchema(inputSchema);
             ProcessingReport report = schema.validate(inputJson);

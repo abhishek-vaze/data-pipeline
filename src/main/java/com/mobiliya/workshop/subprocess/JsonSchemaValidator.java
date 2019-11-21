@@ -1,6 +1,5 @@
 package com.mobiliya.workshop.subprocess;
 
-
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.values.TupleTag;
 
