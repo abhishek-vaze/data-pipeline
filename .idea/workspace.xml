@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24e81975-116f-46aa-b339-a7aee76e235f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/test/JsonValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/dataflow/pipeline/DataflowPipelineBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/dataflow/pipeline/DataflowPipelineBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/CheckErrorFn.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mobiliya/workshop/subprocess/JsonTransformer.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,6 +51,9 @@
       <recent name="com.mobiliya.workshop.exception" />
       <recent name="com.ikea.bootcamp.pipeline.demo" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Abhishek\IdeaProjects\pipelineexample\src\main\resources" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -61,7 +67,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.JsonValidator">
+    <configuration name="JsonValidator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mobiliya.workshop.test.JsonValidator" />
+      <module name="data-pipeline" />
+      <option name="PROGRAM_PARAMETERS" value="--runner=DirectRunner" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mobiliya.workshop.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StarterPipelineApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mobiliya.workshop.StarterPipelineApplication" />
       <module name="data-pipeline" />
@@ -76,6 +96,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Test" />
+      <module name="data-pipeline" />
+      <option name="PROGRAM_PARAMETERS" value="--runner=DirectRunner" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.ikea.bootcamp.pipeline.demo.App" />
       <module name="data-pipeline" />
@@ -86,7 +114,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.JsonValidator" />
         <item itemvalue="Application.StarterPipelineApplication" />
+        <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
   </component>

@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "errorCode": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "string"
+    },
+    "moreInfo": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "errorCode",
+    "timestamp",
+    "description",
+    "moreInfo"
+  ]
+}

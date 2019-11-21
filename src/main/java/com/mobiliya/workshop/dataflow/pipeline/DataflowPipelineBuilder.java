@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mobiliya.workshop.dataflow.pipeline.entities.Error;
 import com.mobiliya.workshop.dataflow.pipeline.options.ErrorGroupOptions;
 import com.mobiliya.workshop.subprocess.JsonTransformer;
+import com.mobiliya.workshop.subprocess.JsonValidator;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.extensions.jackson.AsJsons;
+import org.apache.beam.sdk.extensions.jackson.ParseJsons;
 import org.apache.beam.sdk.io.kafka.KafkaIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.*;
@@ -34,6 +36,7 @@ public class DataflowPipelineBuilder implements Serializable {
                 PipelineOptionsFactory.fromArgs(args).withValidation().as(ErrorGroupOptions.class);
         String errorCode = options.getErrorCode();
         Pipeline pipeline = Pipeline.create(options);
+        JsonValidator validator = new JsonValidator();
 
 
         pipeline
@@ -43,10 +46,11 @@ public class DataflowPipelineBuilder implements Serializable {
                                 .withTopic(options.getInputTopic())
                                 .withKeyDeserializer(StringDeserializer.class)
                                 .withValueDeserializer(StringDeserializer.class)
-                                .updateConsumerProperties(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
+                                .withConsumerConfigUpdates(ImmutableMap.of("auto.offset.reset", (Object) "earliest"))
                                 .withoutMetadata())
                 .apply(Values.<String>create())
-                .apply(new JsonTransformer())
+                .apply("Check input Json against schema", Filter.by(input -> validator.test(input)))
+                .apply(ParseJsons.of(Error.class))
                 .apply("Filter by Error Code",
                         Filter.by(input -> {
                             return input.getErrorCode().equalsIgnoreCase(errorCode);

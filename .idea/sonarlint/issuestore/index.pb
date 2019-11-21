@@ -16,7 +16,7 @@ y
 Isrc/main/java/com/mobiliya/workshop/dataflow/pipeline/entities/Error.java,9\4\942ac2c748987a21363f2f6adc535b58ce1b56bd
 „
 Tsrc/main/java/com/mobiliya/workshop/dataflow/pipeline/options/ErrorGroupOptions.java,2\2\22c8e74e43e437efab77ce124b19dd5fcf3b8a53
-p
-@src/main/java/com/mobiliya/workshop/subprocess/CheckErrorFn.java,5\f\5f12d9f16ffad326ba50176439c28291a518e6b7
 ‚
 Rsrc/main/java/com/mobiliya/workshop/dataflow/pipeline/DataflowPipelineBuilder.java,c\f\cf2c043f3f04ae1acc6b4b27769a0ed6451d287b
+s
+Csrc/main/java/com/mobiliya/workshop/subprocess/JsonTransformer.java,b\6\b69eaa7298040dc8171594871c55da7173b384ef

@@ -1,33 +1,28 @@
 package com.mobiliya.workshop.subprocess;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mobiliya.workshop.dataflow.pipeline.entities.Error;
-import org.apache.beam.sdk.transforms.MapElements;
-import org.apache.beam.sdk.transforms.PTransform;
-import org.apache.beam.sdk.transforms.SimpleFunction;
-import org.apache.beam.sdk.values.PCollection;
 
-import java.io.IOException;
+import org.apache.beam.sdk.transforms.DoFn;
+import org.apache.beam.sdk.values.TupleTag;
 
+import java.util.function.Predicate;
 
-public class JsonTransformer extends PTransform<PCollection<String>, PCollection<Error>> {
+public class JsonTransformer extends DoFn<String, String> {
 
+    private TupleTag<String> success;
+    private TupleTag<String> failure;
+    private JsonValidator validator;
 
-    @Override
-    public PCollection<Error> expand(PCollection<String> input) {
+    public JsonTransformer(TupleTag<String> success, TupleTag<String> failure, Predicate<String> validator) {
+        this.success = success;
+        this.failure = failure;
+        this.validator = (JsonValidator) validator;
+    }
 
-        return (PCollection) input.apply
-                (MapElements.via(new SimpleFunction<String, Error>() {
-                    public Error apply(String input) {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        try {
-                            Error error = objectMapper.readValue(input, Error.class);
-                            return error;
-                        } catch (Exception ex) {
-                            System.out.println("cannot parse input json");
-                            return null;
-                        }
-                    }
-                }));
+    @ProcessElement
+    public void process(ProcessContext context) {
+        if (validator.test(context.element()))
+            context.output(success, context.element());
+        else
+            context.output(failure, context.element());
     }
 }
