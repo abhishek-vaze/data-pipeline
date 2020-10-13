@@ -13,7 +13,7 @@
     <properties>
         <beam.version>2.16.0</beam.version>
         <jackson.version>2.9.10</jackson.version>
-        <junit.version>4.13-beta-3</junit.version>
+        <junit.version>4.13.1</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-exec-plugin.version>1.6.0</maven-exec-plugin.version>
         <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
